@@ -1,0 +1,46 @@
+---
+- schema_version: 1.0.0
+  name: Service API
+  aliases: api
+  summary: My service API
+  desc: long description
+  source: https://github.com/examplecom/api
+  tracker: https://issues.example.com/api
+  website: https://api.example.com
+  owner: gregswift
+  environment_name_template: "{{name}} {{tier}}"
+  environments:
+    - tier: dev
+      datacenters:
+        - dc2
+      aliases:
+        - api.dev.dc2.example.com
+        - https://api.dev.dc2.example.com
+        - https://api.dev.dc2.example.com/v1
+      dependencies:
+        - https://pubsub.staging.api.example.com/v2
+        - https://idm.staging.api.example.com/v1
+      infrastructure: publiccloud
+    - tier: test
+      datacenters:
+        - dc2
+      aliases:
+        - api.test.dc2.example.com
+        - https://api.test.dc2.example.com
+        - https://api.test.dc2.example.com/v1
+      dependencies:
+        - https://pubsub.staging.api.example.com/v2
+        - https://idm.staging.api.example.com/v1
+      infrastructure: privatecloud
+    - tier: prod
+      default: true
+      datacenters:
+        - dc1
+      aliases:
+        - https://api.prod.dc1.example.com
+        - https://api.prod.dc1.example.com/v1
+      dependencies:
+        - https://pubsub.api.example.com/v2
+        - https://idm.api.example.com/v1
+      infrastructure: dedicated
+
