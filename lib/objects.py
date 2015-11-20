@@ -26,7 +26,7 @@ class Environment(SerializableObject):
     __keys__ = ['tier', 'datacenters', 'aliases', 'dependencies',
             'infrastructure', 'default']
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         for key in self.__keys__:
             setattr(self, key, kwargs.get(key, None))
 
@@ -50,22 +50,14 @@ class Polo(SerializableObject):
     __keys__ = ['schema_version', 'name', 'alias', 'summary', 'desc',
             'source', 'tracker', 'website', 'owner']
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, **kwargs):
         self._kwargs = kwargs
         #set some variables we will need shortly
         self.environments = []
         self.aliases = []
 
-        if len(args) == 1:
-            data = args[0]
-            for x in self.__keys__:
-                if x in data.keys():
-                    setattr(self, x, data[x])
-        else:
-            data = {}
-            for x in self.__keys__:
-                if x in kwargs.keys():
-                    setattr(self, x, kwargs[x])
+        for key in self.__keys__:
+            setattr(self, key, kwargs.get(key, None))
 
         for env in data['environments']:
             self.environments.append(Environment(env))
