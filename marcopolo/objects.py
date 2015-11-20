@@ -3,6 +3,7 @@ import json
 
 import yaml
 
+from jinja2 import Template
 
 class SerializableObject(object):
     __keys__ = []
@@ -28,7 +29,7 @@ class Environment(SerializableObject):
                  'default',
                  'dependencies',
                  'infrastructure',
-                 'tiers' ]
+                 'tier' ]
 
     def __init__(self, **kwargs):
         for key in self.__keys__:
@@ -47,11 +48,13 @@ class Environment(SerializableObject):
             out[self.name]['default'] = True
         return out
 
-    def set_name(self, name=None, template=None):
-        self.name = name
+    def set_name(self, parent, name=None, template=None):
         self.__name_template = template
-        if self.name is None:
-            self.name = self.__name_template
+        if name is None and template is not None:
+            self.name = Template(template).render(
+                    **dict(parent.__dict__.items()+self.__dict__.items()))
+        else:
+            self.name = name
 
 class Polo(SerializableObject):
     # XXX These are the keys expected in schema_version 0.0.1,
@@ -67,13 +70,12 @@ class Polo(SerializableObject):
                  'website' ]
 
     def __init__(self, **kwargs):
-        self._kwargs = kwargs
         for key in self.__keys__:
             setattr(self, key, kwargs.get(key, None))
         self.environments = []
         for e in kwargs.get('environments', {}):
             env = Environment(**e)
-            env.set_name(template=kwargs['environment_name_template'])
+            env.set_name(self, template=kwargs['environment_name_template'])
             self.environments.append(env)
 
     def _serialize(self):
