@@ -19,12 +19,16 @@ class SerializableObject(object):
                 explicit_start=True)
 
     def __str__(self):
-        return self.alias
+        return self.name
 
 
 class Environment(SerializableObject):
-    __keys__ = ['tier', 'datacenters', 'aliases', 'dependencies',
-            'infrastructure', 'default']
+    __keys__ = [ 'aliases',
+                 'datacenters',
+                 'default',
+                 'dependencies',
+                 'infrastructure',
+                 'tiers' ]
 
     def __init__(self, **kwargs):
         for key in self.__keys__:
@@ -43,20 +47,34 @@ class Environment(SerializableObject):
             out[self.name]['default'] = True
         return out
 
+    def set_name(self, name=None, template=None):
+        self.name = name
+        self.__name_template = template
+        if self.name is None:
+            self.name = self.__name_template
 
 class Polo(SerializableObject):
     # XXX These are the keys expected in schema_version 0.0.1,
     #         we use this list to confirm data coming in
-    __keys__ = ['schema_version', 'name', 'alias', 'summary', 'desc',
-            'source', 'tracker', 'website', 'owner']
+    __keys__ = [ 'aliases',
+                 'desc',
+                 'name',
+                 'owner',
+                 'schema_version',
+                 'source',
+                 'summary',
+                 'tracker',
+                 'website' ]
 
     def __init__(self, **kwargs):
         self._kwargs = kwargs
         for key in self.__keys__:
-            if key == 'environments':
-                self.environments = [Environment(**env) for env in kwargs[key]]
-            else:
-                setattr(self, key, kwargs.get(key, None))
+            setattr(self, key, kwargs.get(key, None))
+        self.environments = []
+        for e in kwargs.get('environments', {}):
+            env = Environment(**e)
+            env.set_name(template=kwargs['environment_name_template'])
+            self.environments.append(env)
 
     def _serialize(self):
         out = {}
