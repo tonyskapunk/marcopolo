@@ -52,18 +52,11 @@ class Polo(SerializableObject):
 
     def __init__(self, **kwargs):
         self._kwargs = kwargs
-        #set some variables we will need shortly
-        self.environments = []
-        self.aliases = []
-
         for key in self.__keys__:
-            setattr(self, key, kwargs.get(key, None))
-
-        for env in data['environments']:
-            self.environments.append(Environment(env))
-
-    def add_environment(self, environment):
-        self.environments.append(environment)
+            if key == 'environments':
+                self.environments = [Environment(**env) for env in kwargs[key]]
+            else:
+                setattr(self, key, kwargs.get(key, None))
 
     def _serialize(self):
         out = {}
