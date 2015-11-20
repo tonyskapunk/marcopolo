@@ -92,7 +92,4 @@ def parse(data):
     return Polo(**data[0])
 
 if __name__ == '__main__':
-    with open(sys.argv[1], 'r') as f:
-        for p in parse(f.read()):
-            print p.to_yaml()
-
+    print parse(open(sys.argv[1], 'r').read()).to_yaml()
