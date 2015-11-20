@@ -36,16 +36,15 @@ class Environment(SerializableObject):
             setattr(self, key, kwargs.get(key, None))
 
     def _serialize(self):
-        out = {self.name: {
-
+        out = {
+            'aliases': [str(x) for x in self.aliases],
             'datacenters': self.datacenters,
-            'alias': [str(x) for x in self.aliases],
             'dependencies': self.dependencies,
-            'infrastructure': self.infrastructure
-            }
+            'infrastructure': self.infrastructure,
+            'tier': self.tier
         }
         if self.default:
-            out[self.name]['default'] = True
+            out['default'] = True
         return out
 
     def set_name(self, parent, name=None, template=None):
@@ -82,9 +81,9 @@ class Polo(SerializableObject):
         out = {}
         for x in self.__keys__:
             out[x] = getattr(self, x)
-        out['environments'] = {}
+        out['environments'] = []
         for x in self.environments:
-            out['environments'].update(x._serialize())
+            out['environments'].append(x._serialize())
         return [out]
 
 def parse(data):
