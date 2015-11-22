@@ -1,4 +1,6 @@
 import json
+import base64
+
 import requests
 
 class Spider(object):
@@ -20,7 +22,7 @@ class Spider(object):
         self.session = requests.Session()
         self.session.headers['Authorization'] = 'token ' + oauth_token
         
-        polos = []
+        self.polos = []
         links = "{}/search/code?q=filename:polo%20extension:polo".format(self.endpoint)
         while links:
             print '-- loop top --'
@@ -35,6 +37,20 @@ class Spider(object):
                 links = False
             d = r.json()['items']
             for x in d:
-                polos.append(x['url'])
-        print repr(polos)
+                self.polos.append(x['url'])
 
+    def retrieve_polos(self):
+        """
+        retrieve_polos is a generator that returns urls and polo file strings
+
+        yields tuples of (url, polo_data)
+        """
+        for x in self.polos:
+            r = self.session.get(x)
+            try:
+                r.raise_for_status()
+            except:
+                raise
+            polo = base64.b64decode(r.json()['content'])
+            url = r.json()['url']
+            yield (url, polo)
