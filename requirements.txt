@@ -1,3 +1,4 @@
 PyYAML
 json
 jinja2
+requests
