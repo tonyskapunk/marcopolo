@@ -1,0 +1,47 @@
+---
+- schema_version: 1.0.0
+  name: Service pubsub
+  aliases:
+    - pubsub
+  summary: My service pubsub
+  desc: long description
+  source: https://github.com/examplecom/pubsub
+  tracker: https://issues.example.com/pubsub
+  website: https://pubsub.example.com
+  owner: gregswift
+  environment_name_template: "{{name}} {{tier}}"
+  environments:
+    - tier: dev
+      datacenters:
+        - dc2
+      aliases:
+        - pubsub.dev.dc2.example.com
+        - https://pubsub.dev.dc2.example.com
+        - https://pubsub.dev.dc2.example.com/v1
+      dependencies:
+        - https://api.staging.example.com/v1
+        - https://idm.staging.example.com/v1
+      infrastructure: publiccloud
+    - tier: staging
+      datacenters:
+        - dc2
+      aliases:
+        - pubsub.staging.example.com
+        - https://pubsub.staging.example.com
+        - https://pubsub.staging.example.com/v1
+      dependencies:
+        - https://api.staging.example.com/v1
+        - https://idm.staging.example.com/v1
+      infrastructure: privatecloud
+    - tier: prod
+      default: true
+      datacenters:
+        - dc1
+      aliases:
+        - https://pubsub.example.com
+        - https://pubsub.example.com/v1
+      dependencies:
+        - https://api.example.com/v1
+        - https://idm.example.com/v1
+      infrastructure: dedicated
+

@@ -1,0 +1,47 @@
+---
+- schema_version: 1.0.0
+  name: Service idm
+  aliases:
+    - idm
+  summary: My service idm
+  desc: long description
+  source: https://github.com/examplecom/idm
+  tracker: https://issues.example.com/idm
+  website: https://idm.example.com
+  owner: gregswift
+  environment_name_template: "{{name}} {{tier}}"
+  environments:
+    - tier: dev
+      datacenters:
+        - dc2
+      aliases:
+        - idm.dev.dc2.example.com
+        - https://idm.dev.dc2.example.com
+        - https://idm.dev.dc2.example.com/v1
+      dependencies:
+        - https://api.staging.example.com/v1
+        - https://pubsub.staging.example.com/v1
+      infrastructure: publiccloud
+    - tier: staging
+      datacenters:
+        - dc2
+      aliases:
+        - idm.staging.example.com
+        - https://idm.staging.example.com
+        - https://idm.staging.example.com/v1
+      dependencies:
+        - https://api.staging.example.com/v1
+        - https://pubsub.staging.example.com/v1
+      infrastructure: privatecloud
+    - tier: prod
+      default: true
+      datacenters:
+        - dc1
+      aliases:
+        - https://idm.example.com
+        - https://idm.example.com/v1
+      dependencies:
+        - https://api.example.com/v1
+        - https://pubsub.example.com/v1
+      infrastructure: dedicated
+

@@ -1,7 +1,8 @@
 ---
 - schema_version: 1.0.0
   name: Service API
-  aliases: api
+  aliases:
+    - api
   summary: My service API
   desc: long description
   source: https://github.com/examplecom/api
@@ -18,29 +19,29 @@
         - https://api.dev.dc2.example.com
         - https://api.dev.dc2.example.com/v1
       dependencies:
-        - https://pubsub.staging.api.example.com/v2
-        - https://idm.staging.api.example.com/v1
+        - https://pubsub.staging.example.com/v1
+        - https://idm.staging.example.com/v1
       infrastructure: publiccloud
-    - tier: test
+    - tier: staging
       datacenters:
         - dc2
       aliases:
-        - api.test.dc2.example.com
-        - https://api.test.dc2.example.com
-        - https://api.test.dc2.example.com/v1
+        - api.staging.example.com
+        - https://api.staging.example.com
+        - https://api.staging.example.com/v1
       dependencies:
-        - https://pubsub.staging.api.example.com/v2
-        - https://idm.staging.api.example.com/v1
+        - https://pubsub.staging.example.com/v1
+        - https://idm.staging.example.com/v1
       infrastructure: privatecloud
     - tier: prod
       default: true
       datacenters:
         - dc1
       aliases:
-        - https://api.prod.dc1.example.com
-        - https://api.prod.dc1.example.com/v1
+        - https://api.example.com
+        - https://api.example.com/v1
       dependencies:
-        - https://pubsub.api.example.com/v2
-        - https://idm.api.example.com/v1
+        - https://pubsub.example.com/v1
+        - https://idm.example.com/v1
       infrastructure: dedicated
 

@@ -69,12 +69,17 @@ class Polo(SerializableObject):
                  'website' ]
 
     def __init__(self, **kwargs):
+        self._targets = []
         for key in self.__keys__:
             setattr(self, key, kwargs.get(key, None))
+        self._targets.append(self.name)
+        self._targets.extend(self.aliases)
         self.environments = []
         for e in kwargs.get('environments', {}):
             env = Environment(**e)
             env.set_name(self, template=kwargs['environment_name_template'])
+            self._targets.append(env.name)
+            self._targets.extend(env.aliases)
             self.environments.append(env)
 
     def _serialize(self):
