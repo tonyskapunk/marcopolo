@@ -4,7 +4,7 @@
 %{!?_unitdir: %define _unitdir /usr/lib/systemd/system}
 
 Name:           marcopolo
-Version:        0.1.2
+Version:        0.1.0
 Release:        1%{?dist}
 Group:          Applications/Systems
 Summary:        Application agnostic tool to represent node availability.
@@ -115,55 +115,5 @@ fi
 %endif
 
 %changelog
-* Fri Jun 19 2015 Greg Swift <greg.swift@rackspace.com> - 0.1.2-1
-- Fixes to work better when singleton doesnt take, like on py2.6
-
-* Fri May 29 2015 Greg Swift <greg.swift@rackspace.com> - 0.1.1-1
-- Updates to syncronize with new debian package
-- Use /var/lib/marcopolo as home, not /var/run - old users will have to manually deal
-
-* Tue May 19 2015 Greg Swift <greg.swift@rackspace.com> - 0.1.0-2
-- Handle init script different to better suport debian in the project
-
-* Mon Apr 06 2015 Greg Swift <greg.swift@rackspace.com> - 0.1.0-1
-- Introduce offline mode
-
-* Fri Jan 09 2015 Chad Wilson <chad.wilson@rackspace.com> - 0.0.4-4
-- leave service restart on update to postuninstall scriptlet
-
-* Wed Jan 07 2015 Chad Wilson <chad.wilson@rackspace.com> - 0.0.4-3
-- update RPM post-install scriptlet if clauses
-
-* Mon Jan  5 2015 Greg Swift <greg.swift@rackspace.com> - 0.0.4-2
-- Typo in post scriplet performing move
-
-* Mon Dec 29 2014 Greg Swift <greg.swift@rackspace.com> - 0.0.4-1
-- Update init script to add condrestart condition (helps upgrades from 0.0.2-4)
-- Updated spec to handle transition of node_disabled file path
-
-* Fri Nov 14 2014 Chad Wilson <chad.wilson@rackspace.com> - 0.0.3-1
-- Add support for HEAD requests
-
-* Tue Apr 08 2014 Alex Schultz <alex.schultz@rackspace.com> - 0.0.2-6
-- Update init script to fix error when no parameters are passed in
-- Fixed spec email address
-
-* Wed Mar 26 2014 Greg Swift <greg.swift@rackspace.com> - 0.0.2-5
-- Add default value for _unitdir for older distributions without
-
-* Tue Mar 25 2014 Greg Swift <greg.swift@rackspace.com> - 0.0.2-4
-- Update to include systemd support
-- Support marcopolo specific state directory
-
-* Tue Mar 25 2014 Greg Swift <greg.swift@rackspace.com> - 0.0.2-3
-- bump of release for copr build system for el5
-
-* Wed Feb 05 2014 Alex Schultz <alex.schultz@rackspace.com> - 0.0.2-2
-- python-setuptools is required to run the marcopolo command
-
-* Wed Jan 29 2014 Alex Schultz <alex.schultz@rackspace.com> - 0.0.2-1
-- CentOS/RHEL 5 support
-- Removed cherrypy, replaced with python-daemon
-
-* Wed Jan 22 2014 Greg Swift <gregswift@gmail.com> - 0.0.1-1
-- Initial spec
+* Sun Nov 22 2015 Greg Swift <greg.swift@rackspace.com> - 0.1.0-1
+- Initial import

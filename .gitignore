@@ -1,1 +1,4 @@
+artifacts/
+build/
+*.egg-info/
 *.py[oc]
