@@ -59,7 +59,7 @@ class Polo(SerializableObject):
     # XXX These are the keys expected in schema_version 0.0.1,
     #         we use this list to confirm data coming in
     __keys__ = [ 'aliases',
-                 'desc',
+                 'description',
                  'name',
                  'owner',
                  'schema_version',

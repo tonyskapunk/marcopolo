@@ -30,7 +30,7 @@ and everyone that can answer 'polo' does.
 TBD
 
 ### Polo Schema
-See examples/schema/*.polo files
+See docs/schema and examples/schema/*.polo
 
 ## Licensing
 All files contained with this distribution are licenced either under the [Apache License v2.0](http://www.apache.org/licenses/LICENSE-2.0) or the [GNU General Public License v2.0](http://www.gnu.org/licenses/gpl-2.0.html). You must agree to the terms of these licenses and abide by them before viewing, utilizing, modifying, or distributing the source code contained within this distribution.

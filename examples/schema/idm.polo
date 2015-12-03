@@ -4,7 +4,7 @@
   aliases:
     - idm
   summary: My service idm
-  desc: long description
+  description: long description
   source: https://github.com/examplecom/idm
   tracker: https://issues.example.com/idm
   website: https://idm.example.com

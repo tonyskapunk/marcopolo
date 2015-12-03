@@ -4,7 +4,7 @@
   aliases:
     - pubsub
   summary: My service pubsub
-  desc: long description
+  description: long description
   source: https://github.com/examplecom/pubsub
   tracker: https://issues.example.com/pubsub
   website: https://pubsub.example.com

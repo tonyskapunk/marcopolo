@@ -4,7 +4,7 @@
   aliases:
     - api
   summary: My service API
-  desc: long description
+  description: long description
   source: https://github.com/examplecom/api
   tracker: https://issues.example.com/api
   website: https://api.example.com
