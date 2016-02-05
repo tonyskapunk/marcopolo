@@ -16,16 +16,15 @@ class Spider(object):
         api_endpoint: https url to github api base 
                 (api.github.com or github.domain.com/api/)
         oauth_token: github oauth token with roles: ?
-        
+
         """
         self.endpoint = api_endpoint
         self.session = requests.Session()
         self.session.headers['Authorization'] = 'token ' + oauth_token
-        
+
         self.polos = []
         links = "{}/search/code?q=filename:polo%20extension:polo".format(self.endpoint)
         while links:
-            print '-- loop top --'
             r = self.session.get(links)
             try:
                 r.raise_for_status()
