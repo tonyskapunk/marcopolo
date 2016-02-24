@@ -94,6 +94,3 @@ class Polo(SerializableObject):
 def parse(data):
     data = yaml.load(data)
     return Polo(**data[0])
-
-if __name__ == '__main__':
-    print parse(open(sys.argv[1], 'r').read()).to_yaml()

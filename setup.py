@@ -27,7 +27,7 @@ if __name__ == "__main__":
         package_dir = {NAME: NAME},
         description = SHORT_DESC,
         entry_points={
-            'console_scripts': [ 'marcopolo = marcopolo.util:run' ],
+            'console_scripts': [ 'marcopolo-parse = marcopolo.cli:parse_schema_file' ],
         },
 	data_files=[('/etc/init.d', ['scripts/marcopolod.init']),
                     ('/usr/lib/systemd/system', ['scripts/marcopolod.service']),
