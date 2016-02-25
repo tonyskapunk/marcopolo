@@ -4,12 +4,23 @@ import json
 import yaml
 
 from jinja2 import Template
+from py2neo import authenticate, Graph, Node, Relationship
+
+authenticate('localhost:7474', 'neo4j', '')
+graph = Graph('http://localhost:7474/db/data')
+try:
+    graph.schema.create_uniqueness_constraint('Environment', 'name')
+    graph.schema.create_uniqueness_constraint('Dependency', 'name')
+except:
+    # this is because py2neo throws the following exception if it already exists
+    # py2neo.error.ConstraintViolationException: Constraint already exists: CONSTRAINT ON ( environment:Environment ) ASSERT environment.name IS UNIQUE
+    pass
 
 class SerializableObject(object):
     __keys__ = []
 
     def _serialize(self):
-        """Must be defined by subclass"""
+        '''Must be defined by subclass'''
         pass
 
     def to_json(self):
@@ -34,6 +45,22 @@ class Environment(SerializableObject):
     def __init__(self, **kwargs):
         for key in self.__keys__:
             setattr(self, key, kwargs.get(key, None))
+
+    def create_nodes(self):
+        self.node = Node('Environment', name=self.name)
+        graph.create(self.node)
+        self.create_alias_nodes()
+        self.create_dependency_nodes()
+
+    def create_alias_nodes(self):
+        for alias in self.aliases:
+            node = graph.merge_one('Environment', 'name', alias)
+            graph.create_unique(Relationship(node, 'ALIASES', self.node))
+
+    def create_dependency_nodes(self):
+        for dependency in self.dependencies:
+            node = graph.merge_one('Environment', 'name', dependency)
+            graph.create_unique(Relationship(self.node, 'DEPENDS_ON', node))
 
     def _serialize(self):
         out = {
@@ -78,9 +105,24 @@ class Polo(SerializableObject):
         for e in kwargs.get('environments', {}):
             env = Environment(**e)
             env.set_name(self, template=kwargs['environment_name_template'])
+            env.create_nodes()
             self._targets.append(env.name)
             self._targets.extend(env.aliases)
             self.environments.append(env)
+        self.create_nodes()
+
+    def create_nodes(self):
+        self.node = Node('Dependency', name=self.name, ilk='Dependency')
+        graph.create(self.node)
+        self.create_environment_nodes()
+
+    def create_environment_nodes(self):
+        for env in self.environments:
+            graph.create_unique(Relationship(self.node, 'HOSTED_BY', env.node))
+            graph.create_unique(Relationship(env.node, 'HOSTS', self.node))
+            for alias in env.aliases:
+                node = Node('Environment', name=alias)
+                graph.create_unique(Relationship(node, 'ALIASES', env.node))
 
     def _serialize(self):
         out = {}
