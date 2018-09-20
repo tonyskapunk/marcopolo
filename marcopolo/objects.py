@@ -1,3 +1,4 @@
+import os
 import sys
 import json
 
@@ -6,8 +7,12 @@ import yaml
 from jinja2 import Template
 from py2neo import authenticate, Graph, Node, Relationship
 
-authenticate('localhost:7474', 'neo4j', '')
-graph = Graph('http://localhost:7474/db/data')
+neo4j_uri = os.environ.get('NEO4J_URI', 'localhost:7474')
+neo4j_user = os.environ.get('NEO4J_USER', 'neo4j')
+neo4j_password = os.environ.get('NEO4J_PASSWORD', '')
+authenticate(neo4j_uri, neo4j_user, neo4j_password)
+graph = Graph('http://{0}/db/data'.format(neo4j_uri))
+
 try:
     graph.schema.create_uniqueness_constraint('Environment', 'name')
     graph.schema.create_uniqueness_constraint('Dependency', 'name')
