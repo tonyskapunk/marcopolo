@@ -1,0 +1,36 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    job-name: marcopolo
+    parent: marcopolo
+  name: marcopolo
+spec:
+  backoffLimit: 6
+  completions: 1
+  parallelism: 1
+  template:
+    metadata:
+      labels:
+        job-name: marcopolo
+    spec:
+      containers:
+      - command:
+        - container-entrypoint
+        - /usr/libexec/s2i/run
+        env:
+        - name: MARCOPOLO_CONFIG
+          value: /config/marcopolo.ini
+        - name: APP_SCRIPT
+          value: /opt/app-root/src/parse.py
+        image: docker-registry.default.svc:5000/marcopolo-test/marcopolo:latest
+        imagePullPolicy: Always
+        name: marcopolo-notifier
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: OnFailure
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
