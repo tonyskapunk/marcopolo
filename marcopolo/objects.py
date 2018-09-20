@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import pprint
 
 import yaml
 
@@ -107,13 +108,21 @@ class Polo(SerializableObject):
         self._targets.append(self.name)
         self._targets.extend(self.aliases)
         self.environments = []
+        self.existing = []
+
         for e in kwargs.get('environments', {}):
+            pprint.pprint(e)
+
             env = Environment(**e)
-            if not kwargs.get('name') and not e.get('tier'):
+            name = kwargs['name'] + '.' + e['tier']
+
+            if not all([kwargs.get('name'), e.get('tier')]) or name in self.existing:
                 continue
 
-            env.set_name(self, name=kwargs['name'] + '.' + e['tier'])
+            env.set_name(self, name=name)
             env.create_nodes()
+
+            self.existing.append(name)
             self._targets.append(env.name)
             self._targets.extend(env.aliases)
             self.environments.append(env)
