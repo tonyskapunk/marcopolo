@@ -19,8 +19,8 @@ spec:
         - container-entrypoint
         - /usr/libexec/s2i/run
         env:
-        - name: MARCOPOLO_CONFIG
-          value: /config/marcopolo.ini
+        - name: POLO_FILE
+          value: /opt/app-root/src/examples/schema/api.polo
         - name: APP_SCRIPT
           value: /opt/app-root/src/parse.py
         image: docker-registry.default.svc:5000/marcopolo-test/marcopolo:latest
