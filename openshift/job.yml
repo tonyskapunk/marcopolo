@@ -21,8 +21,15 @@ spec:
         env:
         - name: POLO_FILE
           value: /opt/app-root/src/examples/schema/api.polo
+        - name: NEO4J_URI
+          value: neo4j:7474
+        - name: NEO4J_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: neo4j-user
+              key: password
         - name: APP_SCRIPT
-          value: /opt/app-root/src/parse.py
+          value: /opt/app-root/src/parser.py
         image: docker-registry.default.svc:5000/marcopolo-test/marcopolo:latest
         imagePullPolicy: Always
         name: marcopolo-notifier
