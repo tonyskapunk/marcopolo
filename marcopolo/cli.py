@@ -1,6 +1,6 @@
 import os
 import sys
-from objects import parse
+from marcopolo.objects import parse
 
 def parse_schema_file(input=None):
     if input is None:
