@@ -1,3 +1,4 @@
 PyYAML
+requests
 jinja2
 py2neo==2.0.8
