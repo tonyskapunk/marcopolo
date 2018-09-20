@@ -11,4 +11,5 @@ results = spider.Spider(url, oauth).retrieve_polos()
 
 polos = []
 for x in results:
+    print(x[0])
     polos.append(objects.parse(x[1]))
