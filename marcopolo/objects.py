@@ -109,7 +109,10 @@ class Polo(SerializableObject):
         self.environments = []
         for e in kwargs.get('environments', {}):
             env = Environment(**e)
-            env.set_name(self, template=kwargs['environment_name_template'])
+            if not kwargs.get('name'):
+                continue
+
+            env.set_name(self, name=kwargs['name'])
             env.create_nodes()
             self._targets.append(env.name)
             self._targets.extend(env.aliases)
