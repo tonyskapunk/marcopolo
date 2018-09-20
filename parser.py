@@ -1,9 +1,14 @@
 #!/usr/bin/env python
 
-import marcopolo.cli as cli
+import os
+from marcopolo import objects, spider
 
-from marcopolo import cli, mapper
+
+url = os.environ.get('GITHUB_URL')
+oauth = os.environ.get('OAUTH_TOKEN')
+
+results = spider.Spider(url, oauth).retrieve_polos()
 
 polos = []
-for x in ['api','idm','pubsub']:
-    polos.append(cli.parse_schema_file('/opt/app-root/src/examples/schema/{0}.polo'.format(x)))
+for x in results:
+    polos.append(objects.parse(x[1]))
