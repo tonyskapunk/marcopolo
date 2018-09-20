@@ -80,12 +80,12 @@ class Environment(SerializableObject):
         return out
 
     def set_name(self, parent, name=None, template=None):
-        self.__name_template = template
-        if name is None and template is not None:
-            values = {**parent.__dict__, **self.__dict__}
-            self.name = Template(template).render(**values)
-        else:
-            self.name = name
+        # self.__name_template = template
+        # if name is None and template is not None:
+        #     values = {**parent.__dict__, **self.__dict__}
+        #     self.name = Template(template).render(**values)
+        # else:
+        self.name = name
 
 class Polo(SerializableObject):
     # XXX These are the keys expected in schema_version 0.0.1,
