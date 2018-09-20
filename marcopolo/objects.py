@@ -82,7 +82,7 @@ class Environment(SerializableObject):
     def set_name(self, parent, name=None, template=None):
         self.__name_template = template
         if name is None and template is not None:
-            values = {**parent.__dict__.items(), **self.__dict__.items()})
+            values = {**parent.__dict__.items(), **self.__dict__.items()}
             self.name = Template(template).render(**values)
         else:
             self.name = name
